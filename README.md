@@ -32,7 +32,7 @@ pip install spikelib
 Alternatively, you can install the latest version of spikelib from github  running the following commands:
 
 ```sh
-git clone https://github.com/nelpy/nelpy.git
+git clone https://github.com/creyesp/spikelib
 cd spikelib
 python setup.py [install, develop]
 ```
