@@ -86,7 +86,7 @@ def load_matstim(filepath, matvar='stim'):
         (row, col, ch, pln) = (0, 1, 2, 3)
         # Scikit-image convention
         stim = np.transpose(stim, (pln, row, col, ch))
-    except ValueError:
+    except Exception:
         with h5py.File(filepath, 'r') as stim_raw:
             # Dimentional orden from data save in matlab v7.3
             (pln, ch, col, row) = (0, 1, 2, 3)

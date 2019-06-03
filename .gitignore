@@ -20,3 +20,8 @@ build/*
 dist/*
 docs/*
 *.egg*
+
+# tox
+.tox/*
+
+.idea*

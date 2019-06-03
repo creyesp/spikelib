@@ -123,3 +123,38 @@ def fit_temp_sta(temporal_sta, time, fit_time, tau1=None, tau2=None, amp1=None,
             fit_temp = np.full_like(fit_time, np.nan)
 
     return fit_parameters, fit_temp
+
+
+def twoD_Gaussian(xdata_tuple, amp, xo, yo, sigma_x, sigma_y, theta, offset):
+    """Make a two dimentional gaussian funcion.
+
+    Parameters
+    ----------
+    xdata_tuple: tupla (x, y)
+        matrix de x e y con los valores de los ejes de cada eje en 2d
+    amplitude
+        amplitud maxima para (x0, y0)
+    xo
+        centro en el eje x
+    yo
+        centro en el eje y
+    sigma_x
+        varianza en el eje x
+    sigma_y
+        varianmza en el eje y
+    theta
+        rotacion de la sllipse, en [radianes], considerando el eje x como
+        referencia de la rotacion antihorario
+    offset
+        offset de los datos
+
+    """
+    (x, y) = xdata_tuple
+    xo = float(xo)
+    yo = float(yo)
+    a = (np.cos(-theta)**2)/(2*sigma_x**2) + (np.sin(-theta)**2)/(2*sigma_y**2)
+    b = -(np.sin(2*-theta))/(4*sigma_x**2) + (np.sin(2*-theta))/(4*sigma_y**2)
+    c = (np.sin(-theta)**2)/(2*sigma_x**2) + (np.cos(-theta)**2)/(2*sigma_y**2)
+    g = amp*np.exp(-(a*((x-xo)**2) + 2*b*(x-xo)*(y-yo) + c*(y-yo)**2)) + offset
+
+    return g.ravel()

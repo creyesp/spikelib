@@ -1,6 +1,5 @@
-"""mealib utilities."""
+"""spikelib utilities."""
 import os
-import sys
 import numpy as np
 
 
@@ -12,7 +11,7 @@ def clean_directory(inputfolder):
 
     Parameters
     ----------
-    inputfolder: str
+    inputfolder : str
         path of directory
 
     Example
@@ -41,12 +40,12 @@ def check_directory(inputfolder):
 
     Parameters
     ----------
-    inputfolder: str
+    inputfolder : str
         path of directory
 
     Example
     --------
-        checkDirectory('../myFolder')
+    >>> checkDirectory('../myFolder')
 
     """
     if not os.path.exists(inputfolder):
@@ -63,9 +62,9 @@ def check_groups(fdata, groups):
 
     Parameters
     ----------
-    fdata: h5py object
+    fdata : object
         h5py object to check if a list of group exist
-    groups: list
+    groups : list of str
         list of group name to check
 
     """
@@ -75,25 +74,35 @@ def check_groups(fdata, groups):
 
 
 def datasets_to_array(fgroup):
-    """Transform all datasets in a group to an array.
+    """
+    Transform all datasets in a group to an array.
 
     Parameters
     ----------
-    fgroup: h5py object
+    fgroup : object
         h5py object to retrive all dataset inside of it
 
     Returns
     -------
-    array: ndarray
+    ds_array : array_like
         NxM array, where N if the number of dataset and M is the
         lenght of each dataset
+    names : list of str
+        list of names for each row in ds_array
+
+    Example
+    -------
+    >>> with h5py.File(fdata) as data:
+    >>>    array, keys = datasets_to_array(data[group])
+    >>> array.shape
+    (889,7)
 
     """
-    array = []
-    keys = []
+    ds_array = []
+    names = []
     for key in fgroup:
-        array.append(fgroup[key][...])
-        keys.append(key)
-    array = np.array(array)
+        ds_array.append(fgroup[key][...])
+        names.append(key)
+    ds_array = np.array(ds_array)
 
-    return array, keys
+    return ds_array, names

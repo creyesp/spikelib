@@ -26,22 +26,24 @@ def ste(stim, stim_time, spikes, nsamples_before=30, nsamples_after=0):
 
     Parameters
     ----------
-    time_stim : ndarray
+    time_stim : array_like
         The time array corresponding to the start of each frame in
         the stimulus.
 
-    stimulus : ndarray
+    stimulus : array_like
         A spatiotemporal or temporal stimulus array, where time is the
         first dimension.
 
-    spikes : ndarray
+    spikes : array_like
         A list or ndarray of spike times.
 
     nsamples_before : int
-        Number of samples to include in the STE before the spike.
+        Number of samples to include in the STE before the spike,
+        defaults: 30.
 
-    nsamples_after : int defaults: 0
-        Number of samples to include in the STE after the spike.
+    nsamples_after : int
+        Number of samples to include in the STE after the spike,
+        defaults: 0.
 
     Returns
     -------
@@ -81,26 +83,28 @@ def sta(stim, stim_time, spikes, nsamples_before=30, nsamples_after=0):
 
     Parameters
     ----------
-    stim : ndarray
+    stim : array_like
         A spatiotemporal or temporal stimulus array, where time is the
         first dimension.
 
-    stim_time : ndarray
+    stim_time : array_like
         The time array corresponding to the start of each frame in
         the stimulus.
 
-    spikes : ndarray
-        A list or ndarray of spike times
+    spikes : array_like
+        A list or array of spike times
 
     nsamples_before : int
-        Number of samples to include in the STA before the spike
+        Number of samples to include in the STA before the spike,
+        defaults: 30.
 
     nsamples_after : int
-        Number of samples to include in the STA after the spike (default: 0)
+        Number of samples to include in the STA after the spike,
+        efaults: 0
 
     Returns
     -------
-    sta : ndarray
+    sta : array_like
         The spatiotemporal spike-triggered average.
 
     References
@@ -125,9 +129,9 @@ def multi_sta(spiketimes, stim_time, nsamples_before=30, nsamples_after=0):
 
     Parameter
     ---------
-    spiketimes: tuple
+    spiketimes : tuple
         tuple(name, spiketimes) to compute STA
-    stim_time: array
+    stim_time : array_like
         array with start time of each frame of stim
     nsamples_before : int
         Number of samples to include in the STA before the spike
@@ -136,9 +140,9 @@ def multi_sta(spiketimes, stim_time, nsamples_before=30, nsamples_after=0):
 
     Returns
     ---------
-    unit_name:  str
+    unit_name :  str
         name of the unit
-    sta_array: ndarray
+    sta_array : array_like
         STA array
 
     """
@@ -182,11 +186,11 @@ def run_multi_sta(stim_path, stim_time, spiketimes, nsamples_before=30,
 
     Parameter
     ---------
-    stim_path: str
+    stim_path : str
         file of the stim
-    stim_time: array
+    stim_time : array_like
         times of start and end of stim
-    spiketimes: dict
+    spiketimes : dict
         spiketimes to compute sta
 
     Returns

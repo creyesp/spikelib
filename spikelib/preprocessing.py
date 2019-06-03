@@ -6,7 +6,8 @@ import neuroshare as ns
 
 
 class Sync:
-    """Get the sinchronization times from a record.
+    """
+    Get the sinchronization times from a record.
 
     Class provide a complete enviroment to explore, cumpute and
     recovery sincronization signal in a record using a SamplingInteface
@@ -20,7 +21,8 @@ class Sync:
     """
 
     def __init__(self, exp_name, real_fps=59.7596):
-        """Initialization of Sync.
+        """
+        Initialyze of Sync.
 
         Parameters
         ----------
@@ -29,6 +31,7 @@ class Sync:
         real_fps : float
             The real refresh rate used by the projector. Please check
             log file to get this number.
+
         """
         self.exp_name = exp_name
         self.real_fps = real_fps
@@ -37,7 +40,8 @@ class Sync:
         return '{}({},{})'.format(self.__class__, self.exp_name, self.real_fps)
 
     def read_mcd(self, mcd_file):
-        """Load mcd file to be analyze.
+        """
+        Load mcd file to be analyze.
 
         Parameters
         ----------
@@ -57,7 +61,8 @@ class Sync:
             print('{:04d}: {} type: {:d}'.format(*kvalues))
 
     def load_analyzed(self, src_folder):
-        """Load output files from Analizer mathod.
+        """
+        Load output files from Analizer mathod.
 
         Load the result of analysed mcd file with analyzer method and
         saved previously. Those file have start_end points, repeated
@@ -78,21 +83,23 @@ class Sync:
         self.total_duration = general_information[0]
         self.sample_rate = general_information[1]
 
-    def load_events(self, source_file):
-        """Read csv file with event for a experiment.
+    def load_events(self, source_file, **kwargs):
+        """
+        Read csv file with event for a experiment.
 
         Update event_list atribute from csv file as dataframe.
 
         Parameters
         ----------
-        source_file: str
+        source_file : str
             path csv file with list of event for a experiment.
 
         """
-        self.event_list = pd.read_csv(source_file)
+        self.event_list = pd.read_csv(source_file, **kwargs)
 
     def get_raw_data(self, channel, start=0, windows=-1):
-        """Load all raw data in a specific channel.
+        """
+        Load all raw data in a specific channel.
 
         Parameters
         ----------
@@ -114,7 +121,10 @@ class Sync:
 
         Example
         ----------
-        data, time, dur = sync.get_raw_data(channel)
+        >>> sync = Sync('name')
+        >>> sync.read_mcd(mcd_path)
+        >>> data, dur = sync.get_raw_data(channel)
+        >>> sync.close_file()
 
         """
         try:
@@ -125,7 +135,8 @@ class Sync:
             print(err, ', please load a mcd file.')
 
     def get_raw_samples(self, channel, start=0, windows=-1):
-        """Load all raw data in a specific channel.
+        """
+        Load all raw data in a specific channel.
 
         Parameters
         ----------
@@ -145,9 +156,10 @@ class Sync:
 
         Example
         ----------
-        sync = Sync('name')
-        sync.read_mcd(mcd_path)
-        data, dur = sync.get_raw_data(channel)
+        >>> sync = Sync('name')
+        >>> sync.read_mcd(mcd_path)
+        >>> data, dur = sync.get_raw_samples(channel)
+        >>> sync.close_file()
 
         """
         try:
@@ -158,7 +170,8 @@ class Sync:
             print(err, ', please load a mcd file.')
 
     def plot_window(self, channel, start_point, window):
-        """Plot analog signal of syncronization in a specific time.
+        """
+        Plot analog signal of syncronization in a specific time.
 
         Take a window time of the analog signal in MCD file and plot
         it to show the raw values.
@@ -180,7 +193,8 @@ class Sync:
         plt.show()
 
     def analyzer(self, channel):
-        """Get the sinchronization times from MCD file.
+        """
+        Get the sinchronization times from MCD file.
 
         Recovery the exact time when a frame was showed  on the screen
         using one of VGA channels as trigger. This channel use
@@ -196,10 +210,10 @@ class Sync:
 
         Update
         ----------
-        start_end_frames : attr <- int 2d array
+        start_end_frames : attr <- int 2d array_like
             array with a start and end point for each frame in analog
             signal
-        repeted_frames : attr <- int id array
+        repeted_frames : attr <- int id array_like
             array points where the next frame it the repetition of this
         total_duration : attr <- int
             total number of points in record
@@ -271,7 +285,8 @@ class Sync:
         self.total_duration = len(analog_data)
 
     def create_events(self):
-        """Create a list of events of sincronization.
+        """
+        Create a list of events of sincronization.
 
         Use start time from each frame to detect a sequence of
         images (event) and create a dataframe with all event.
@@ -331,15 +346,20 @@ class Sync:
             / self.sample_rate
             )
         event_list['protocol_name'] = ''
+        event_list['nd'] = ''
+        event_list['intensity'] = ''
+        event_list['extra_desciption'] = ''
         event_list['repetition_name'] = ''
         self.event_list = event_list
 
     def add_repeated(self):
-        """Add repeated frames to event list.
+        """
+        Add repeated frames to event list.
 
         For each event in event_list attribute add the repeated frame
         points. This point is the right frame showed and next frame is
         the repeated frame.
+
         """
         self.event_list['repeated_frames'] = ''
         self.event_list['#repeated_frames'] = 0
@@ -354,7 +374,8 @@ class Sync:
                 self.repeted_start_frames[filter_rep])
 
     def save_analyzed(self, output_folder, stype='txt'):
-        """Save attributes generated by analyzer method.
+        """
+        Save attributes generated by analyzer method.
 
         Save start_end frames, repeated frames, duration and sample
         rate of a record generated by analyzer method.
@@ -385,8 +406,9 @@ class Sync:
         elif stype == 'hdf5':
             pass
 
-    def save_events(self, output_folder):
-        """Save event list in a csv file.
+    def save_events(self, output_folder, **kwargs):
+        """
+        Save event list in a csv file.
 
         Take the event list dataframe and save it as csv.
 
@@ -397,10 +419,12 @@ class Sync:
 
         """
         template_name = output_folder + '{}_' + self.exp_name + '_.csv'
-        self.event_list.to_csv(template_name.format('event_list'), index=False)
+        self.event_list.to_csv(template_name.format('event_list'), index=False,
+                               **kwargs)
 
     def create_separated_sync(self, output_folder):
-        """Split syncronization times for each event.
+        """
+        Split syncronization times for each event.
 
         Take start_end times of syncronization and split it in
         individual files.
@@ -432,9 +456,12 @@ class Sync:
 
 
 class SyncDigital(Sync):
-    """Get the sinchronization times from a digital record.
+    """
+    Get the sinchronization times from a digital record.
 
     Class provide a complete enviroment to explore, cumpute and
     recovery sincronization signal in a digital record.
 
     """
+
+    pass

@@ -9,16 +9,16 @@ def raster(trials, ax=None, **kwargs):
 
     Parameters
     ----------
-    trials: list of ndarray
+    trials : list of array_like or numpy obj
         list with spiketimes for each trial
-    **kwargs:
+    **kwargs
         kwargs of axis of matplotlib
 
     Returns
     -------
-    fig: figure object
+    fig : figure object
         current figure of the plot
-    ax: axis object
+    ax : axis object
         axis with raster
 
     """
@@ -41,16 +41,16 @@ def psth(spks, ax=None, **kwargs):
 
     Parameters
     ----------
-    spks: ndarray
-        list with spiketimes for each trial
-    **kwargs:
+    spks : array_like
+        1D array with spiketimes for each trial
+    **kwargs
         kwargs of axis of matplotlib
 
     Returns
     -------
-    fig: figure object
+    fig : figure object
         current figure of the plot
-    ax: axis object
+    ax : axis object
         axis with psth
 
     """
@@ -72,16 +72,16 @@ def plot_sta(sta_array, name=''):
 
     Parameters
     ----------
-    sta_array: ndarray
+    sta_array : array_like
         STA array
-    name: str
+    name : str
         name of unit
 
     Returns
     -------
-    fig: figure object
+    fig : figure object
         current figure of the plot
-    ax: axis object
+    ax : axis object
         axis with psth
 
     """

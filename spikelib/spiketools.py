@@ -6,21 +6,25 @@ from sklearn.neighbors import KernelDensity
 
 def chunk_spikes(spikes, start, end):
     """
-    Get a subset of spike between start and end time
+    Get a subset of spike between start and end time.
 
     Parameters
     ----------
-    spikes: ndarray
+    spikes : array_like
         array with timestams of a cell
-    start: float
+    start : float
         time of start the chunk
-    end: float
+    end : float
         time of end the chunk
 
     Returns
     -------
-    chunk: ndarray
+    chunk : array_like
         subset of spikes
+
+    See Also
+    --------
+    get_trials, flatten_trials
 
     """
     chunk = spikes[(spikes >= start)*(spikes <= end)]
@@ -37,19 +41,23 @@ def get_trials(spikes, start_trials, end_trials, offset=0):
 
     Parameters
     ----------
-    spikes : ndarray
+    spikes : array_like
         Array of all spike times.
-    start_trials : ndarray
+    start_trials : array_like
         Set of start time for each trail.
-    end_trials: ndarray
+    end_trials: array_like
         Set of end time for each trail.
-    offset : float
-        offset allow move the reference of start time.
+    offset : float, optional
+        offset allow move the reference of start time, default is 0.
 
     Return
     ------
     list
         List of array of all spikes for each trial.
+
+    See Also
+    --------
+    chunk_spikes, flatten_trials
 
     """
     msg = 'start and end time must have equal length'
@@ -68,7 +76,23 @@ def get_trials(spikes, start_trials, end_trials, offset=0):
 
 
 def flatten_trials(trials):
-    """Put spike times from different trial in a 1D array."""
+    """Put spike times from different trial in a 1D array.
+
+    Parameters
+    ----------
+    trials : list of array_like
+        list with all spike in each trial
+
+    Returns
+    -------
+    array_like
+        1D array with all spike together
+
+    See Also
+    --------
+    chunk_spikes, get_trials
+
+    """
     spks = []
     for ktrial in trials:
         spks.extend(ktrial)
@@ -84,14 +108,20 @@ def est_pdf(trails, time, bandwidth=0.02, norm_factor=1):
 
     Parameters
     ----------
-    spikes : list
+    spikes : list of array_like
         List with all spike times in each trial
-    time : ndarray
+    time : array_like
         Array of time points where pdf will be estimate.
 
     Return
     ------
-    est_pdf : ndarray
+    array_like
+        estimated pdf from trails
+
+    See Also
+    --------
+    chunk_spikes, get_trials, sustain_index, bias_index,
+    response_index, decay_time, get_features_flash
 
     """
     try:
@@ -101,8 +131,11 @@ def est_pdf(trails, time, bandwidth=0.02, norm_factor=1):
         kde = KernelDensity(
             kernel='epanechnikov', bandwidth=bandwidth).fit(spiketimes)
         est_pdf = np.exp(kde.score_samples(time))
-        est_pdf = (est_pdf/est_pdf.max())*norm_factor
-    except ValueError:
+        if est_pdf.any():
+            est_pdf = (est_pdf/est_pdf.max())*norm_factor
+        else:
+            est_pdf = np.zeros_like(time)
+    except Exception:
         est_pdf = np.zeros_like(time)
     return est_pdf.flatten()
 
@@ -117,7 +150,7 @@ def sustain_index(response):
 
     Parameters
     ----------
-    response : ndarray
+    response : array_like
         PSTH or estimated response array of a cell in a specific
         estimulation.
 
@@ -125,6 +158,10 @@ def sustain_index(response):
     ----------
     sust_index : float
         index between 0 and 1.
+
+    See Also
+    --------
+    est_pdf
 
     """
     response_max = response.max()
@@ -137,7 +174,7 @@ def sustain_index(response):
 
 
 def bias_index(fr_max_on, fr_max_off, thr=0.65):
-    """
+    r"""
     Get the bias index from a On Off response.
 
     The bias index compare the response to 2 differente stimuli, ON
@@ -165,6 +202,10 @@ def bias_index(fr_max_on, fr_max_off, thr=0.65):
             2: Off response
             3: On-Off response
 
+    See Also
+    --------
+    est_pdf
+
     """
     try:
         bias_index = (fr_max_on-fr_max_off)/float(fr_max_on+fr_max_off)
@@ -182,7 +223,7 @@ def bias_index(fr_max_on, fr_max_off, thr=0.65):
 
 
 def response_index(response, prev_response, ri_span, max_resp=None):
-    """Get the response index.
+    r"""Get the response index.
 
     The response index compare the response to a stimulus against
     previous response to the stimulus. It measure allow cuantify
@@ -193,9 +234,9 @@ def response_index(response, prev_response, ri_span, max_resp=None):
 
     Parameters
     ----------
-    response : ndarray
+    response : array_like
         response for analysis
-    prev_response : ndarray
+    prev_response : array_like
         previous response for analysis
     ri_span : int
         number of de points to analize in response and prev_resp
@@ -208,6 +249,10 @@ def response_index(response, prev_response, ri_span, max_resp=None):
         value between  0 to 1, where 0 mean that the response don't
         change to the stimulus and 1 mean the previous response was
         0 and response was max.
+
+    See Also
+    --------
+    est_pdf
 
     """
     if not max_resp:
@@ -231,9 +276,9 @@ def decay_time(response, time, peaktime, max_resp, decrease_factor=np.e):
 
     Parameters
     ----------
-    response : ndarray
+    response : array_like
         psth or estimated firingrate
-    time : ndarray
+    time : array_like
         time of response
     peaktime : float
         time where is the max response
@@ -249,6 +294,10 @@ def decay_time(response, time, peaktime, max_resp, decrease_factor=np.e):
         value between  0 to 1, where 0 mean that the response don't
         change to the stimulus and 1 mean the previous response was
         0 and response was max.
+
+    See Also
+    --------
+    est_pdf
 
     """
     fiter_decay = (time > peaktime) & (response < max_resp/decrease_factor)
@@ -268,7 +317,7 @@ def get_features_flash(response, time_resp, bound, resp_thr=0.3,
 
     Parameter
     ------------
-    response : ndarray
+    response : array_like
         psth or estimated firingrate
     time_resp, array
         time of response in seg
@@ -296,11 +345,17 @@ def get_features_flash(response, time_resp, bound, resp_thr=0.3,
     flash_type : int
         Flash clasification, 0, 1, 2 or 3 that represent Null, ON,
         OFF and ONOFF.
-    flash_char : ndarray
+    flash_char : array_like
         Array with the follow paramiters: [latency_on, latency_off,
         bias_idx, decay_on, decay_off, resp_index_on,
         resp_index_off, sust_index_on, sust_index_off, fr_max_on,
         fr_max_off]
+
+    See Also
+    --------
+    est_pdf, chunk_spikes, get_trials, sustain_index, bias_index,
+    response_index, decay_time, get_features_flash
+
     """
     response = np.asarray(response)
     (start_on, end_on, start_off, end_off) = bound  # seconds
@@ -326,8 +381,8 @@ def get_features_flash(response, time_resp, bound, resp_thr=0.3,
             latency_on = peaktime_on - start_on
             decay_on = decay_time(resp_on, time_resp_on, peaktime_on,
                                   fr_max_on, decrease_factor)
-            resp_index_on = response_index(resp_on, resp_off, fr_max_on,
-                                           ri_span_samples)
+            resp_index_on = response_index(resp_on, resp_off, ri_span_samples,
+                                           fr_max_on)
             sust_index_on = sustain_index(resp_on[filter_sust_on])
         else:
             peak_idx_on = 0
@@ -346,8 +401,8 @@ def get_features_flash(response, time_resp, bound, resp_thr=0.3,
             latency_off = peaktime_off - start_off
             decay_off = decay_time(resp_off, time_resp_off, peaktime_off,
                                    fr_max_off, decrease_factor)
-            resp_index_off = response_index(resp_off, resp_on, fr_max_off,
-                                            ri_span_samples)
+            resp_index_off = response_index(resp_off, resp_on, ri_span_samples,
+                                            fr_max_off)
             sust_index_off = sustain_index(resp_off[filter_sust_off])
         else:
             peak_idx_off = 0

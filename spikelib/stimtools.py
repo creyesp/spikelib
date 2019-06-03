@@ -18,15 +18,15 @@ def correct_checkerboard(stimpath, syncpath, repeatedpath, outputpath,
 
     Parameters
     ----------
-    stimpath :
+    stimpath : str
         path to original stim file (.mat).
     syncpath : str
         path to the syncronization file with start and end time for
         checkerboard (txt format).
-    repeatedpath :
+    repeatedpath : str
         path to file with all repeated times of experiment
         (txt format).
-    outputpath :
+    outputpath : str
         path to save stim to hdf5 file.
 
     Note
@@ -109,7 +109,7 @@ def correct_checkerboard(stimpath, syncpath, repeatedpath, outputpath,
     with h5py.File(outputpath, 'a') as f:
         if not output_group.endswith('/'):
             output_group = output_group + '/'
-        check_group(f, [output_group])
+        check_groups(f, [output_group])
 
         if output_dataset in f[output_group]:
             f[output_group+output_dataset][...] = new_stim
