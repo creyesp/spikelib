@@ -9,7 +9,7 @@ with open('LICENSE') as f:
 
 setup(
     name='spikelib',
-    version='0.1.01,
+    version='0.1.01',
     # scripts=['sta'],
     description='Set of tools to analyze neuronal activity from spiketimes',
     long_description=readme,
