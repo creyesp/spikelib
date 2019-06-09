@@ -24,8 +24,11 @@ More information
 
 Question? Please contact cesar.reyesp [at] gmail.com
 
-Please report any bugs you encounter through the GitHub issue tracker.
-<https://github.com/creyesp/spikelib/issues/new>`_.
+Please report any bugs you encounter through the GitHub issue tracker_.
+
+.. _tracker: https://github.com/creyesp/spikelib/issues/new
+
+
 Indices and tables
 ==================
 
