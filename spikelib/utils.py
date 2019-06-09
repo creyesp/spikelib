@@ -14,10 +14,10 @@ def clean_directory(inputfolder):
     inputfolder : str
         path of directory
 
-    Example
-    ----------
-    >>>from mealib.utils import clean_directory
-    >>>clean_directory('../myinputfolder')
+    Examples
+    --------
+    >>> from mealib.utils import clean_directory
+    >>> clean_directory('../myinputfolder')
 
     """
     if not os.path.exists(inputfolder):
@@ -43,7 +43,7 @@ def check_directory(inputfolder):
     inputfolder : str
         path of directory
 
-    Example
+    Examples
     --------
     >>> checkDirectory('../myFolder')
 
@@ -90,8 +90,8 @@ def datasets_to_array(fgroup):
     names : list of str
         list of names for each row in ds_array
 
-    Example
-    -------
+    Examples
+    --------
     >>> with h5py.File(fdata) as data:
     >>>    array, keys = datasets_to_array(data[group])
     >>> array.shape

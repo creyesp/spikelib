@@ -4,8 +4,7 @@ from lmfit import Minimizer, Parameters
 
 
 def two_cascades(params, time):
-    """
-    Model for temporal integration of sta.
+    """Model for temporal integration of sta.
 
     This function return the model of the difference of two cascades
     of low-pass filters for temporal integration of spike triggered
@@ -23,8 +22,8 @@ def two_cascades(params, time):
     time : ndarray
         Array with the time to compute the model.
 
-    Return
-    ------
+    Returns
+    -------
     model: ndarray
         return values of the function for each element in time array
 
@@ -49,8 +48,7 @@ def two_cascades_min(params, x, raw_data):
 def fit_temp_sta(temporal_sta, time, fit_time, tau1=None, tau2=None, amp1=None,
                  amp2=None, min_time=None, max_time=None, min_amp=-1,
                  max_amp=1, max_n=20):
-    """
-    Fit the temporal integration of the sta.
+    """Fit the temporal integration of the sta.
 
     Use the difference of two cascades of low-pass filters to fit
     the raw temporal integration of STA. It uses the time before
@@ -83,8 +81,8 @@ def fit_temp_sta(temporal_sta, time, fit_time, tau1=None, tau2=None, amp1=None,
     max_n=: float default:20
         maximum order of a model to fit
 
-    Return
-    ------
+    Returns
+    -------
     fit_parameters: lmfit.Params.params
         parameters of the fitting for two_cascades model
     fit_temp: ndarray

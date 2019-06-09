@@ -7,8 +7,7 @@ from scipy.io import loadmat
 
 
 def load_stim(filepath, normed=True, channel='g', dataset='checkerboard'):
-    """
-    Return checkerboard stim from hdf5 file.
+    """Get checkerboard stim from hdf5 file.
 
     Read checkerboard stimulus from hdf5 file. It file was obtained
     from load_matstim() function and sava to a hdf5 file. The
@@ -26,8 +25,8 @@ def load_stim(filepath, normed=True, channel='g', dataset='checkerboard'):
     dataset: str default: 'checkerboard'
         name of stim dataset in hdf5 file
 
-    Return
-    ------
+    Returns
+    -------
     stim: ndarray
         3D array stimulus with the Numpy convention for dimensions.
 
@@ -48,8 +47,7 @@ def load_stim(filepath, normed=True, channel='g', dataset='checkerboard'):
 
 
 def load_matstim(filepath, matvar='stim'):
-    """
-    Return checkerboard stim from .mat file.
+    """Get checkerboard stim from .mat file.
 
     Read checkerboard stimulus generate by matlab and transpose
     dimesion to make compatible with numpy convencion of
@@ -63,14 +61,14 @@ def load_matstim(filepath, matvar='stim'):
     var: str default: 'stim'
         name of stim variable in mat file
 
-    Return
-    ------
+    Returns
+    -------
     stim: ndarray
         4D array stimulus with the Numpy convention for dimensions
         (frame,y,x,channel).
 
-    Note
-    ----
+    Notes
+    -----
     scipy.io.loadmat read matfile in mantain the matlab axis order
     to access array, ej. shape (y,x,channel,frame) = (35,35,3,72000)
     and python should be (frame,y,x,channel) = (72000,35,35,3), for
@@ -102,8 +100,7 @@ def load_matstim(filepath, matvar='stim'):
 
 def load_stim_multi(filepath, normed=True, channel='g',
                     dataset='checkerboard'):
-    """
-    Get checkerboard stim from hdf5 file to run multiprocessing sta.
+    """Get checkerboard stim from hdf5 file to run multiprocessing sta.
 
     Read checkerboard stimulus generate by matlab and transpose
     dimesion to make compatible with numpy convencion of
@@ -122,8 +119,8 @@ def load_stim_multi(filepath, normed=True, channel='g',
     dataset: str default: 'checkerboard'
         name of stim dataset in hdf5 file
 
-    Return
-    ------
+    Returns
+    -------
     stim: RawArray
         3D array stimulus with the Numpy convention for dimensions.
     stim_shape: tuple
@@ -143,8 +140,7 @@ def load_spk_txt():
 
 
 def load_spk_hdf5(filepath, group, datasets=None):
-    """
-    Return spiketimes from hdf5 file.
+    """Get spiketimes from hdf5 file.
 
     Read HDF5 file and get all spike inside a group
 
@@ -157,8 +153,8 @@ def load_spk_hdf5(filepath, group, datasets=None):
     datasets: list
         list of a specifict name of datasets in the group
 
-    Return
-    ------
+    Returns
+    -------
     spks: dic
         dictionary with timestams
 

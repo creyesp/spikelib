@@ -15,10 +15,12 @@ Thumbs.db
 # pyc
 *.pyc
 
+# Docs
+docs/_build/*
+
 # build
 build/*
 dist/*
-docs/*
 *.egg*
 
 # tox

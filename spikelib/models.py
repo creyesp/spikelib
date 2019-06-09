@@ -18,8 +18,7 @@ GLOBAL_STIM = {}
 
 
 def ste(stim, stim_time, spikes, nsamples_before=30, nsamples_after=0):
-    """
-    Get all windows of stimulis triggered by a spike.
+    """Get all windows of stimulis triggered by a spike.
 
     This function create a iterator to get a set of stimulus for a
     spike.
@@ -78,8 +77,7 @@ def ste(stim, stim_time, spikes, nsamples_before=30, nsamples_after=0):
 
 
 def sta(stim, stim_time, spikes, nsamples_before=30, nsamples_after=0):
-    """
-    Compute a spike-triggered average.
+    """Compute a spike-triggered average.
 
     Parameters
     ----------
@@ -127,8 +125,8 @@ def sta(stim, stim_time, spikes, nsamples_before=30, nsamples_after=0):
 def multi_sta(spiketimes, stim_time, nsamples_before=30, nsamples_after=0):
     """Compute the Spike Triggered Average for a cell.
 
-    Parameter
-    ---------
+    Parameters
+    ----------
     spiketimes : tuple
         tuple(name, spiketimes) to compute STA
     stim_time : array_like
@@ -139,7 +137,7 @@ def multi_sta(spiketimes, stim_time, nsamples_before=30, nsamples_after=0):
         Number of samples to include in the STA after the spike (default: 0)
 
     Returns
-    ---------
+    -------
     unit_name :  str
         name of the unit
     sta_array : array_like
@@ -181,11 +179,10 @@ def init_multi_sta(stim, stim_shape):
 
 def run_multi_sta(stim_path, stim_time, spiketimes, nsamples_before=30,
                   nsamples_after=0, normed_stim=True, channel_stim='g'):
-    """
-    Run sta in multiprocessing.
+    """Run sta in multiprocessing.
 
-    Parameter
-    ---------
+    Parameters
+    ----------
     stim_path : str
         file of the stim
     stim_time : array_like

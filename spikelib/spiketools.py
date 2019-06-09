@@ -5,8 +5,7 @@ from sklearn.neighbors import KernelDensity
 
 
 def chunk_spikes(spikes, start, end):
-    """
-    Get a subset of spike between start and end time.
+    """Get a subset of spike between start and end time.
 
     Parameters
     ----------
@@ -24,7 +23,8 @@ def chunk_spikes(spikes, start, end):
 
     See Also
     --------
-    get_trials, flatten_trials
+    get_trials
+    flatten_trials
 
     """
     chunk = spikes[(spikes >= start)*(spikes <= end)]
@@ -32,8 +32,7 @@ def chunk_spikes(spikes, start, end):
 
 
 def get_trials(spikes, start_trials, end_trials, offset=0):
-    """
-    Get a list of spiketime for each trails.
+    """Get a list of spiketime for each trails.
 
     Search spike times in set of period of time(s) defined in
     start_trials and end_trails and return a list of spiketimes
@@ -50,14 +49,15 @@ def get_trials(spikes, start_trials, end_trials, offset=0):
     offset : float, optional
         offset allow move the reference of start time, default is 0.
 
-    Return
-    ------
+    Returns
+    -------
     list
         List of array of all spikes for each trial.
 
     See Also
     --------
-    chunk_spikes, flatten_trials
+    chunk_spikes
+    flatten_trials
 
     """
     msg = 'start and end time must have equal length'
@@ -90,7 +90,8 @@ def flatten_trials(trials):
 
     See Also
     --------
-    chunk_spikes, get_trials
+    chunk_spikes
+    get_trials
 
     """
     spks = []
@@ -100,8 +101,7 @@ def flatten_trials(trials):
 
 
 def est_pdf(trails, time, bandwidth=0.02, norm_factor=1):
-    """
-    Estimate the probability density function from spike.
+    """Estimate the probability density function from spike.
 
     This function estimate the pdf of a cell to get a instantaneous
     firing rates.
@@ -113,15 +113,20 @@ def est_pdf(trails, time, bandwidth=0.02, norm_factor=1):
     time : array_like
         Array of time points where pdf will be estimate.
 
-    Return
-    ------
+    Returns
+    -------
     array_like
         estimated pdf from trails
 
     See Also
     --------
-    chunk_spikes, get_trials, sustain_index, bias_index,
-    response_index, decay_time, get_features_flash
+    chunk_spikes
+    get_trials
+    sustain_index
+    bias_index
+    response_index
+    decay_time
+    get_features_flash
 
     """
     try:
@@ -141,8 +146,7 @@ def est_pdf(trails, time, bandwidth=0.02, norm_factor=1):
 
 
 def sustain_index(response):
-    """
-    Get the sustained index.
+    """Get the sustained index.
 
     Sustained Index (SI) measure if the response is transient or
     sustained, where 0 is completly sustained and 1 is completly
@@ -154,8 +158,8 @@ def sustain_index(response):
         PSTH or estimated response array of a cell in a specific
         estimulation.
 
-    Return
-    ----------
+    Returns
+    -------
     sust_index : float
         index between 0 and 1.
 
@@ -174,13 +178,11 @@ def sustain_index(response):
 
 
 def bias_index(fr_max_on, fr_max_off, thr=0.65):
-    r"""
-    Get the bias index from a On Off response.
+    r"""Get the bias index from a On Off response.
 
     The bias index compare the response to 2 differente stimuli, ON
     and OFF, and classify between, ON, OFF and ONOFF response.
-    .. math::
-        bias_index = \\frac{ON_{max}-OFF_{max}}{ON_{max}+OFF_{max}}
+    .. math:: bias_index = \\frac{ON_{max}-OFF_{max}}{ON_{max}+OFF_{max}}
 
     Parameters
     ----------
@@ -191,8 +193,8 @@ def bias_index(fr_max_on, fr_max_off, thr=0.65):
     thr : float
         threshold to split On, Off and On-Off groups
 
-    Return
-    ----------
+    Returns
+    -------
     bias_index : float
         number between -1 and 1.
     response_type : int
@@ -228,8 +230,7 @@ def response_index(response, prev_response, ri_span, max_resp=None):
     The response index compare the response to a stimulus against
     previous response to the stimulus. It measure allow cuantify
     how much to change the response to a stimulus.
-    .. math::
-        resp_index = \frac{resp_{max}-avg_{prev_resp}}\
+    .. math:: resp_index = \frac{resp_{max}-avg_{prev_resp}}\
     {resp_{max}+avg_{prev_resp}}
 
     Parameters
@@ -243,8 +244,8 @@ def response_index(response, prev_response, ri_span, max_resp=None):
     max_resp : float
         peak of response
 
-    Return
-    ----------
+    Returns
+    -------
     resp_index : float
         value between  0 to 1, where 0 mean that the response don't
         change to the stimulus and 1 mean the previous response was
@@ -268,8 +269,7 @@ def response_index(response, prev_response, ri_span, max_resp=None):
 
 
 def decay_time(response, time, peaktime, max_resp, decrease_factor=np.e):
-    """
-    Get the time of the response dalay to dacay.
+    """Get the time of the response dalay to dacay.
 
     Dacay time is the time that the response take to dacay $n$
     factor to the max response.
@@ -288,8 +288,8 @@ def decay_time(response, time, peaktime, max_resp, decrease_factor=np.e):
         number of time that maximum response should dacay to
         get decay_time
 
-    Return
-    ----------
+    Returns
+    -------
     resp_index : float
         value between  0 to 1, where 0 mean that the response don't
         change to the stimulus and 1 mean the previous response was
@@ -312,11 +312,10 @@ def get_features_flash(response, time_resp, bound, resp_thr=0.3,
                        fpeak_min_dist=10, ri_span=0.1, sust_time=0.4,
                        decrease_factor=np.e
                        ):
-    """
-    Get temporal characteristic of flash response.
+    """Get temporal characteristic of flash response.
 
-    Parameter
-    ------------
+    Parameters
+    ----------
     response : array_like
         psth or estimated firingrate
     time_resp, array
@@ -340,8 +339,8 @@ def get_features_flash(response, time_resp, bound, resp_thr=0.3,
     decrease_factor : float default=np.e
         feaactor to get decrease time
 
-    Return
-    ----------
+    Returns
+    -------
     flash_type : int
         Flash clasification, 0, 1, 2 or 3 that represent Null, ON,
         OFF and ONOFF.
@@ -353,8 +352,14 @@ def get_features_flash(response, time_resp, bound, resp_thr=0.3,
 
     See Also
     --------
-    est_pdf, chunk_spikes, get_trials, sustain_index, bias_index,
-    response_index, decay_time, get_features_flash
+    est_pdf
+    chunk_spikes
+    get_trials
+    sustain_index
+    bias_index
+    response_index
+    decay_time
+    get_features_flash
 
     """
     response = np.asarray(response)

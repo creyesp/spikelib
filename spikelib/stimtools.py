@@ -29,8 +29,8 @@ def correct_checkerboard(stimpath, syncpath, repeatedpath, outputpath,
     outputpath : str
         path to save stim to hdf5 file.
 
-    Note
-    ----------
+    Notes
+    -----
     scipy.io.loadmat read matfile in mantain the matlab axis order
     to access array, ej. shape (y,x,channel,frame) = (35,35,3,72000)
     and python should be (frame,y,x,channel) = (72000,35,35,3), for
