@@ -36,5 +36,6 @@ setup(
         'pandas>=0.23.4',
         'h5py>=2.8.0',
         'lmfit>=0.9.12',
+        'numpydoc>=0.7',
     ],
 )
