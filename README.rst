@@ -53,4 +53,4 @@ code.
 Documentation
 -------------
 For more info and documentation, see the
-`spikelib documentation <spikelib.readthedocs.io>`_.
+`spikelib documentation <https://spikelib.readthedocs.io>`_.
