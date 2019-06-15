@@ -48,3 +48,9 @@ github running the following commands:
 
 Where the develop argument should be used if you want to modify the
 code.
+
+
+Documentation
+-------------
+For more info and documentation, see the
+`spikelib documentation <spikelib.readthedocs.io>`_.
