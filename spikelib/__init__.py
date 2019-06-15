@@ -17,4 +17,4 @@ visualizations - Tools for plotting, psth, raster, receptive fields, etc.
 For more information, see the accompanying README.md
 
 """
-__versio__ = '0.1.0'
+__versio__ = '0.1.3'

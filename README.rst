@@ -18,7 +18,7 @@ This is the list dependencies
 
 .. code:: sh
 
-   pip install numpy scipy matplotlib scikit-learn peakutils pandas h5py lmfit
+   pip install numpy scipy matplotlib scikit-learn peakutils pandas h5py lmfit numpydoc
 
 Optionally you can install neuroshare to read .mcd files. But it only
 work on Python 2.7

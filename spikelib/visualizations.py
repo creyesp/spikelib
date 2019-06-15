@@ -1,6 +1,6 @@
 """Set of tools for visualization."""
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def raster(trials, ax=None, **kwargs):

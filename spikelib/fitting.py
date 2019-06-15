@@ -1,6 +1,6 @@
 """Set of function to fit a raw data."""
-import numpy as np
 from lmfit import Minimizer, Parameters
+import numpy as np
 
 
 def two_cascades(params, time):
@@ -123,36 +123,56 @@ def fit_temp_sta(temporal_sta, time, fit_time, tau1=None, tau2=None, amp1=None,
     return fit_parameters, fit_temp
 
 
-def twoD_Gaussian(xdata_tuple, amp, xo, yo, sigma_x, sigma_y, theta, offset):
-    """Make a two dimentional gaussian funcion.
+def gaussian2d(xy, amp, x0, y0, sigma_x, sigma_y, theta, offset, revel=True):
+    """Make a two dimentional gaussian array.
 
     Parameters
     ----------
-    xdata_tuple: tupla (x, y)
-        matrix de x e y con los valores de los ejes de cada eje en 2d
-    amplitude
-        amplitud maxima para (x0, y0)
-    xo
-        centro en el eje x
-    yo
-        centro en el eje y
-    sigma_x
-        varianza en el eje x
-    sigma_y
-        varianmza en el eje y
-    theta
-        rotacion de la sllipse, en [radianes], considerando el eje x como
-        referencia de la rotacion antihorario
-    offset
-        offset de los datos
+    xy: tuple (x, y)
+        a meshgrid matrix of x and y axis.
+    amplitude: float
+        maximum amplitude of gaussian function
+    x0: float
+        value where gaussian function has maximum value on x axis.
+    y0: float
+        value where gaussian function has maximum value on y axis.
+    sigma_x: float
+        Standard deviation on x axis
+    sigma_y: float
+        Standard deviation on y axis
+    theta: float
+        rotation on x axis counterclockwise, in [radians]
+    offset: flaot
+        offset value for every point in array.
+    revel: bool
+        If revel is True, array is trnsformed to a vector.
 
+    Returns
+    -------
+    Array o vector with the values od a 2 dimentional gaussian function.
+
+
+    Examples
+    --------
+
+    >>> import numpy as np
+    >>> import matplotlib.pyplot as plt
+    >>> from spikelib.fitting import gaussian2d
+
+    >>> y_size, x_size = (35, 30)
+    >>> xy = np.meshgrid(np.linspace(0, x_size - 1, x_size),
+                         np.linspace(0, y_size - 1, y_size),)
+    >>> arr = gaussian2d(xy=xy, amp=10, x0=12, y0=22, sigma_x=1.5,
+                         sigma_y=3.5, theta=np.pi/4, offset=0)
+    >>> plt.pcolor(arr.reshape(y_size, x_size))
+    >>> plt.show()
     """
-    (x, y) = xdata_tuple
-    xo = float(xo)
-    yo = float(yo)
+    (x, y) = xy
+    x0 = float(x0)
+    y0 = float(y0)
     a = (np.cos(-theta)**2)/(2*sigma_x**2) + (np.sin(-theta)**2)/(2*sigma_y**2)
     b = -(np.sin(2*-theta))/(4*sigma_x**2) + (np.sin(2*-theta))/(4*sigma_y**2)
     c = (np.sin(-theta)**2)/(2*sigma_x**2) + (np.cos(-theta)**2)/(2*sigma_y**2)
-    g = amp*np.exp(-(a*((x-xo)**2) + 2*b*(x-xo)*(y-yo) + c*(y-yo)**2)) + offset
+    g = amp*np.exp(-(a*((x-x0)**2) + 2*b*(x-x0)*(y-y0) + c*(y-y0)**2)) + offset
 
     return g.ravel()

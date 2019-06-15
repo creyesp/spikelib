@@ -1,8 +1,8 @@
 """Implementing of classes and function to prepare raw data."""
-import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 import neuroshare as ns
+import numpy as np
+import pandas as pd
 
 
 class Sync:
@@ -17,20 +17,38 @@ class Sync:
     The following image show a simple example how to work it.
     https://tinyurl.com/ydxlvds9
 
+    Parameters
+    ----------
+    exp_name : str
+        The name of the experiment
+    real_fps : float
+        The real refresh rate used by the projector. Please check
+        log file to get this number.
+
+    Attributes
+    ----------
+    data : neuroshare.File object
+        Raw data from mcd file.
+    event_list : pandas.DataFrame
+        Table with all description about sync events.
+    exp_name : str
+        Name of experiment
+    real_fps : float
+        Real frame per second of monitor. Check log file of
+        SamplingIntereface2
+    repeted_start_frames : array_like
+        Array with all repeted frames.
+    sample_rate : int
+        Sample rate of record (from mcd file)
+    start_end_frame :
+        Array with all frames detected on sync
+    total_duration : float
+        Total duration of record.
+
     """
 
     def __init__(self, exp_name, real_fps=59.7596):
-        """Initialyze of Sync.
-
-        Parameters
-        ----------
-        exp_name : str
-            The name of the experiment
-        real_fps : float
-            The real refresh rate used by the projector. Please check
-            log file to get this number.
-
-        """
+        """Initialyze of Sync."""
         self.exp_name = exp_name
         self.real_fps = real_fps
 
@@ -192,21 +210,21 @@ class Sync:
         different intensity levels to mark when a frame started. The
         following image show a simple example how to make it.
         https://tinyurl.com/y84n4xjh
-
-        Update the following attibutes:
-        start_end_frames, repeted_frames, total_duration, sample_rate
+        Update the following attibutes, start_end_frames,
+        repeted_frames, total_duration, sample_rate.
 
         Parameters
         ----------
-        mcd_channel : int
+        channel : int
             channel number where is the analog signal in .mcd file. Use
             showEntities() to check number.
 
+
         .. todo::
 
-        Detection method should be change for one more robust technique
-        because now use search point to point where are the end of
-        pulse. Try using a find_peak algorithm.
+            Detection method should be change for one more robust technique
+            because now use search point to point where are the end of
+            pulse. Try using a find_peak algorithm.
 
         """
         # Implementation

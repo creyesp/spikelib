@@ -1,7 +1,6 @@
 """Tools to manipulate stumulus."""
-
-import numpy as np
 import h5py
+import numpy as np
 
 from spikelib.io import load_matstim
 from spikelib.utils import check_groups

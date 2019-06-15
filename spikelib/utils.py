@@ -1,5 +1,6 @@
 """spikelib utilities."""
 import os
+
 import numpy as np
 
 
