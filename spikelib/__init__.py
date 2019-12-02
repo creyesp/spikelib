@@ -17,4 +17,12 @@ visualizations - Tools for plotting, psth, raster, receptive fields, etc.
 For more information, see the accompanying README.md
 
 """
-__versio__ = '0.1.3'
+__version__ = '0.1.3'
+from spikelib import (fitting,
+                      io,
+                      models,
+                      preprocessing,
+                      spiketools,
+                      stimtools,
+                      utils,
+                      visualizations)
